@@ -5,11 +5,16 @@ import { fetchFromAPI } from "../utils/fetchFromAPI";
 
 function Feed() {
   const [selectedCategory, setselectedCategory] = useState("New");
-  const [videos, setvideos] = useState([])
+  const [videos, setvideos] = useState([]);
 
   useEffect(() => {
-    fetchFromAPI(`search?part=snippet&q=${selectedCategory}`)
-    .then((data)=> setvideos(data.items))
+    fetchFromAPI(`search?part=snippet&q=${selectedCategory}`).then((data) =>{
+    
+      setvideos(data.items)
+      // console.log(videos)
+    }
+      
+    );
   }, [selectedCategory]);
 
   return (
