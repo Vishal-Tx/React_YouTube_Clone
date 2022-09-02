@@ -9,7 +9,7 @@ function ChannelDetail() {
   const [channelDetail, setChannelDetail] = useState(null);
   const [videos, setVideos] = useState([]);
   const { id } = useParams();
-  console.log("channelDetail", channelDetail);
+  // console.log("channelDetail", channelDetail);
   useEffect(() => {
     fetchFromAPI(`channels?part=snippet&id=${id}`).then((data) =>
       setChannelDetail(data?.items[0])
@@ -23,17 +23,20 @@ function ChannelDetail() {
   return (
     <Box minHeight="95vh" sx={{}}>
       <Box>
+        <div style={{
+            backgroundColor:"#11120f",
+            width:"auto"}}>
         <CardMedia
           image={
             channelDetail?.brandingSettings?.image?.bannerExternalUrl
           }
-          sx={{display:"flex",
-          justifyContent:"center",
-          alignItems:"center",
-          width:{xs: "100%", sm: "300px", md: "auto"},
-          height:"326px",
+          sx={{
+            backgroundColor:"#fff",
+          height:"230px",
+          width:{sm:"auto", md:"1000px"},
           margin:"auto",}}
         />
+        </div>
         {/* <div
           style={{
             background:
@@ -43,8 +46,12 @@ function ChannelDetail() {
           }} /> */}
         <ChannelCard channelDetail={channelDetail} marginTop="-99px" />
       </Box>
+      <Box display="flex" p="2">
+        <Box sx={{mr:{sm:'100px'}}} />
+        <Videos videos={videos} />
+      </Box>
 
-      <Videos videos={videos} />
+      
     </Box>
   );
 }
