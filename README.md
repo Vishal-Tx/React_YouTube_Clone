@@ -2,7 +2,7 @@
 
 This project was made by me(Vishal Gupta) on the path of learning React.
 
-## Dependency Used
+## Dependency Used :-
 
 ### React 18
 
