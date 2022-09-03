@@ -20,6 +20,10 @@ function ChannelDetail() {
     );
   }, [id]);
   // console.log(id);
+  if(!channelDetail?.brandingSettings?.image?.bannerExternalUrl) return "Loading..."
+
+  const {brandingSettings:{image:{bannerExternalUrl}}} = channelDetail;
+
   return (
     <Box minHeight="95vh" sx={{}}>
       <Box>
@@ -28,7 +32,7 @@ function ChannelDetail() {
             width:"auto"}}>
         <CardMedia
           image={
-            channelDetail?.brandingSettings?.image?.bannerExternalUrl
+            bannerExternalUrl
           }
           sx={{
             backgroundColor:"#fff",
