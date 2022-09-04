@@ -30,7 +30,7 @@ const VideoCard = ({
       display:"flex",
       flexDirection: { xs:"column", sm: "row", md: "column"  },
       height:{xs: "100%", sm: "166px", md: "295px"},
-      width: { xs: "100%", sm: "100%", md: "295px" },
+      width: { xs: "100%", sm: "760px", md: "295px" },
       boxShadow: "none",
       borderRadius: 0,
     }}
@@ -45,7 +45,7 @@ const VideoCard = ({
     </Link>
     <CardContent sx={{ backgroundColor: "#1E1E1E", height:{xs: "100%", sm: "166px", md: "295px"}, width:{xs:"100%", sm:"100%", md:'100%'} }}>
       <Link to={videoId ? `/video/${videoId}` : demoVideoUrl}>
-        <Typography variant="subtitle1" fontWeight="bold" color="#FFF" >
+        <Typography variant="subtitle1" fontWeight="bold" color="#FFF" pr={3} flexWrap="wrap">
           {snippet?.title.slice(0, 55) || demoVideoTitle.slice(0, 60)}...
         </Typography>
       </Link>

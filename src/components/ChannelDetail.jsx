@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { Box, CardMedia } from "@mui/material";
 
-import { Videos, ChannelCard } from "./";
+import { Videos, ChannelCard, LoadingScreen } from "./";
 import { fetchFromAPI } from "../utils/fetchFromAPI";
 
 function ChannelDetail() {
@@ -20,26 +20,32 @@ function ChannelDetail() {
     );
   }, [id]);
   // console.log(id);
-  if(!channelDetail?.brandingSettings?.image?.bannerExternalUrl) return "Loading..."
+  // if(!channelDetail?.brandingSettings?.image?.bannerExternalUrl) return <LoadingScreen />
 
-  const {brandingSettings:{image:{bannerExternalUrl}}} = channelDetail;
+  // const {
+  //   brandingSettings: {
+  //     image: { bannerExternalUrl },
+  //   },
+  // } = channelDetail;
 
   return (
     <Box minHeight="95vh" sx={{}}>
       <Box>
-        <div style={{
-            backgroundColor:"#11120f",
-            width:"auto"}}>
-        <CardMedia
-          image={
-            bannerExternalUrl
-          }
-          sx={{
-            backgroundColor:"#fff",
-          height:"230px",
-          width:{sm:"auto", md:"1000px"},
-          margin:"auto",}}
-        />
+        <div
+          style={{
+            backgroundColor: "#11120f",
+            width: "auto",
+          }}
+        >
+          <CardMedia
+            image={channelDetail?.brandingSettings?.image?.bannerExternalUrl || channelDetail?.snippet?.thumbnails?.high?.url }
+            sx={{
+              backgroundColor: "#fff",
+              height: "230px",
+              width: { sm: "auto", md: "1000px" },
+              margin: "auto",
+            }}
+          />
         </div>
         {/* <div
           style={{
@@ -51,11 +57,9 @@ function ChannelDetail() {
         <ChannelCard channelDetail={channelDetail} marginTop="-99px" />
       </Box>
       <Box display="flex" p="2">
-        <Box sx={{mr:{sm:'100px'}}} />
+        <Box sx={{ mr: { sm: "100px" } }} />
         <Videos videos={videos} />
       </Box>
-
-      
     </Box>
   );
 }

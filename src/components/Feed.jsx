@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { Box, Stack, Typography } from "@mui/material";
-import { Sidebar, Videos } from "./";
+import { Sidebar, Videos, LoadingScreen } from "./";
 import { fetchFromAPI } from "../utils/fetchFromAPI";
 
 function Feed() {
@@ -16,6 +16,8 @@ function Feed() {
       
     );
   }, [selectedCategory]);
+
+  if(!videos?.length) return <LoadingScreen />
 
   return (
     <Stack sx={{ flexDirection: { sx: "column", md: "row" } }}>

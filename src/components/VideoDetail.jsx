@@ -4,13 +4,14 @@ import ReactPlayer from "react-player";
 import { Typography, Box, Stack, CardMedia } from "@mui/material";
 import { CheckCircle } from "@mui/icons-material";
 
-import { Videos } from "./";
+import { Videos, LoadingScreen, Comments } from "./";
 import { fetchFromAPI } from "../utils/fetchFromAPI";
 
 const VideoDetail = () => {
   const { id } = useParams();
   const [videoDetail, setVideoDetail] = useState(null);
   const [relatedVideoDetail, setRelatedVideoDetail] = useState([]);
+  const [videoComments, setVideoComments] = useState([])
 
   useEffect(() => {
     fetchFromAPI(`videos?part=snippet,statistics&id=${id}`).then((data) => {
@@ -18,10 +19,18 @@ const VideoDetail = () => {
       setVideoDetail(data.items[0]);
     });
 
-    fetchFromAPI(`search?relatedToVideoId=${id}&part=id,snippet&type=video`).then(data=>{
-      console.log("RelatedVideoData", data.items);
+    fetchFromAPI(
+      `search?relatedToVideoId=${id}&part=id,snippet&type=video`
+    ).then((data) => {
+      // console.log("RelatedVideoData", data.items);
       setRelatedVideoDetail(data.items);
-    })
+    });
+
+    // fetchFromAPI(`commentThreads?part=snippet&videoId=${id}`)
+    // .then(commentData=>{
+    //   // console.log('commentData.items', commentData.items);
+    //   setVideoComments(commentData.items);
+    // })
   }, [id]);
 
   // useEffect(() => {
@@ -31,7 +40,7 @@ const VideoDetail = () => {
   //   );
   // }, [channelId])
 
-  if (!videoDetail?.snippet) return "Loading...";
+  if (!videoDetail?.snippet) return <LoadingScreen />;
 
   const {
     snippet: {
@@ -43,17 +52,20 @@ const VideoDetail = () => {
     statistics: { likeCount, viewCount },
   } = videoDetail;
 
+
   return (
     <Box minHeight="95vh">
       <Stack direction={{ xs: "column", md: "row" }}>
-        <Box flex={1}>
-          <Box sx={{ width: "100%", position: "sticky", top: "86px"}}>
+        <Box flex={1} overflow="auto">
+          <Box sx={{ width: "100%", top: "86px"}}>
             <ReactPlayer
               url={`https://www.youtube.com/watch?v=${id}`}
               className="react-player"
               controls
+              playing
+              position="sticky"
             />
-            <Typography color="#fff" variant="h5" fontWeight="bold" p={2}>
+            <Typography color="#fff" variant="h5" fontWeight="bold" p={2} >
               {title}
             </Typography>
             <Stack
@@ -83,14 +95,27 @@ const VideoDetail = () => {
                 </Typography>
               </Stack>
             </Stack>
+
+ {/* for Comments */}
+
+            {/* <Stack direction="column" gap={3} alignItems="center" color="white" mt={9}>
+                <Comments videoComments={videoComments} />
+              </Stack> */}
+              
+
+{/*\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/ }
           </Box>
         </Box>
-        
-        <Box px={2} py={{md:1, xs:9}} justifyContent="center" alighItems="center">
-      <Videos videos={relatedVideoDetail} direction="column" />
-      </Box>
+
+        <Box
+          px={2}
+          py={{ md: 1, xs: 9 }}
+          justifyContent="center"
+          alighItems="center"
+        >
+          <Videos videos={relatedVideoDetail} direction="column" />
+        </Box>
       </Stack>
-      
     </Box>
   );
 };
